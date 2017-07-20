@@ -11,8 +11,8 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import org.apache.log4j.Logger;
-import ru.ezhov.monitor.utils.AppConst;
-import ru.ezhov.monitor.interfaces.Treatment;
+import ru.ezhov.monitor.utils.AppUtils;
+import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
 
 /**
  * Класс, который следит за изменением в файловой системе
@@ -59,7 +59,7 @@ public class FileMonitor implements Runnable
 
                         Path child = dir.resolve(filename);
 
-                        if (child.toFile().getName().endsWith(AppConst.FILE_EXTENSION))
+                        if (child.toFile().getName().endsWith(AppUtils.FILE_EXTENSION))
                         {
                             Treatment<Path> fileTreatment = new FileTreatment(child);
                             Thread thread = new Thread(fileTreatment);

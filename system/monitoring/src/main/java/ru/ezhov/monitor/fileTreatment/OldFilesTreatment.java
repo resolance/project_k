@@ -3,7 +3,7 @@ package ru.ezhov.monitor.fileTreatment;
 import java.io.File;
 
 import org.apache.log4j.Logger;
-import ru.ezhov.monitor.utils.AppConst;
+import ru.ezhov.monitor.utils.AppUtils;
 
 /**
  * Класс, который переименовывает файлы в папке, если они были до обработки
@@ -23,20 +23,19 @@ public class OldFilesTreatment {
         LOG.info("move start files in folder: " + folderCheck);
 
         File file = new File(folderCheck);
-        File[] files = file.listFiles((dir, name) -> name.endsWith(AppConst.FILE_EXTENSION));
+        File[] files = file.listFiles((dir, name) -> name.endsWith(AppUtils.FILE_EXTENSION));
 
         LOG.info("find " + files.length + " files");
 
         for (File f : files) {
             File newFile =
                     new File(
-                            AppConst.errorFolderPath(folderCheck) +
+                            AppUtils.errorFolderPath(folderCheck) +
                                     File.separator +
-                                    AppConst.PRE_FILE +
                                     f.getName());
 
             ErrorFileMover  errorFileMover=
-                    new ErrorFileMover(f, newFile, AppConst.ATTEMPTS_COUNT);
+                    new ErrorFileMover(f, newFile, AppUtils.ATTEMPTS_COUNT);
             errorFileMover.move();
         }
 

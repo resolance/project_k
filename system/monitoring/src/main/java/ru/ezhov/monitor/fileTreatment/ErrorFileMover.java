@@ -42,6 +42,7 @@ public class ErrorFileMover {
                                 dist.getAbsolutePath() +
                                 "] attempt № " +
                                 ++attemptsNow);
+
                 Files.move(src.toPath(), dist.toPath(), REPLACE_EXISTING);
 
                 LOG.info(
@@ -62,6 +63,6 @@ public class ErrorFileMover {
 
             LOG.fatal("error move file: [" + src.getAbsolutePath() + "] after attempts № " + attemptsNow);
         }
-
     }
+
 }
