@@ -1,14 +1,16 @@
 package ru.ezhov.monitor.fileTreatment.interfaces;
 
 /**
- * Обработчик при появлении файла
+ * Обработчик
  *
- * @param <T> - обрабатываемый тип
+ * @param <T> - обрабатываемый объект
  */
-public abstract class Treatment<T> implements Runnable {
-    protected T object;
+public interface Treatment<T> {
 
-    public Treatment(T treatmentObject) {
-        this.object = treatmentObject;
-    }
+    /**
+     * Обработка объекта
+     *
+     * @param treatmentObject - объект
+     */
+    void treatment(T treatmentObject);
 }

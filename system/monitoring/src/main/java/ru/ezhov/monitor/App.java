@@ -1,11 +1,14 @@
 package ru.ezhov.monitor;
 
+import java.nio.file.Path;
 import java.util.Timer;
 
 import org.apache.log4j.Logger;
+import ru.ezhov.monitor.fileTreatment.FileTreatment;
 import ru.ezhov.monitor.fileTreatment.RepeatedFileTreatment;
 import ru.ezhov.monitor.fileTreatment.FileMonitor;
 import ru.ezhov.monitor.fileTreatment.OldFilesTreatment;
+import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
 import ru.ezhov.monitor.utils.AppUtils;
 import ru.ezhov.monitor.utils.ErrorFolderCreator;
 
@@ -31,15 +34,17 @@ public class App {
         OldFilesTreatment oldFilesTreatment = new OldFilesTreatment(folder);
         oldFilesTreatment.rename();
 
+        Treatment<Path> pathTreatment = new FileTreatment();
+
         //запуск таймера на обработку ошибочных файлов
         Timer timer = new Timer();
         timer.schedule(
-                new RepeatedFileTreatment(folder),
+                new RepeatedFileTreatment(folder, pathTreatment),
                 0,
                 AppUtils.TIME_MILLISECONDS_CHECK_ERROR_FILES);
 
         //запуск в отдельном потоке монитора файлов
-        Thread thread = new Thread(new FileMonitor(folder));
+        Thread thread = new Thread(new FileMonitor(folder, pathTreatment));
         thread.start();
     }
 }

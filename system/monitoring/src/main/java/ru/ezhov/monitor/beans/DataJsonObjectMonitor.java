@@ -1,10 +1,10 @@
 package ru.ezhov.monitor.beans;
 
-import java.util.logging.Logger;
-
 import com.google.common.base.MoreObjects;
+import org.apache.log4j.Logger;
 
 /**
+ * Объект с информацией
  * @author ezhov_da
  */
 public class DataJsonObjectMonitor {

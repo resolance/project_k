@@ -4,6 +4,10 @@ import com.google.common.base.MoreObjects;
 
 import java.util.Date;
 
+
+/**
+ * Объект, который получает данные из названия файла
+ */
 public class FileJsonName {
     private Date date;
     private String ip;

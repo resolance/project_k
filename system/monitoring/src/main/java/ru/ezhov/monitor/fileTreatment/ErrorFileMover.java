@@ -15,12 +15,18 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class ErrorFileMover {
 
-    private static final Logger LOG = Logger.getLogger(OldFilesTreatment.class.getName());
+    private static final Logger LOG = Logger.getLogger(ErrorFileMover.class.getName());
 
     private final File src;
     private final File dist;
     private final int countAttempt;
 
+    /**
+     *
+     * @param src файл для переноса
+     * @param dist итоговый файл после переноса
+     * @param countAttempt кол-во попыток при переносе файла
+     */
     public ErrorFileMover(File src, File dist, int countAttempt) {
         this.src = src;
         this.dist = dist;
@@ -28,7 +34,7 @@ public class ErrorFileMover {
     }
 
     public void move() {
-        int attempts = 0;
+        int attempts = 1;
         renameWithAttempts(attempts);
     }
 
@@ -41,7 +47,7 @@ public class ErrorFileMover {
                                 "] to [" +
                                 dist.getAbsolutePath() +
                                 "] attempt № " +
-                                ++attemptsNow);
+                                attemptsNow);
 
                 Files.move(src.toPath(), dist.toPath(), REPLACE_EXISTING);
 
@@ -51,12 +57,12 @@ public class ErrorFileMover {
                                 "] to [" +
                                 dist.getAbsolutePath() +
                                 "] attempt № " +
-                                ++attemptsNow);
+                                attemptsNow);
 
                 return;
 
             } catch (IOException e) {
-                LOG.error("error move file: [" + src.getAbsolutePath() + "] attempt № " + ++attemptsNow);
+                LOG.error("error move file: [" + src.getAbsolutePath() + "] attempt № " + attemptsNow++, e);
                 renameWithAttempts(attemptsNow);
             }
         } else {

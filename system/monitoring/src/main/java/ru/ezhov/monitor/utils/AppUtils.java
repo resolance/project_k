@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 
 public class AppUtils {
     public static final String FILE_EXTENSION = ".json";
+    public static final String FILE_FINAL_EXCEPTION= "error_";
     public static final String FOLDER_EXCEPTION_FILE = "repeat";
     public static final int ATTEMPTS_COUNT = 3;
     public static final int TIME_MILLISECONDS_CHECK_ERROR_FILES = 10000;

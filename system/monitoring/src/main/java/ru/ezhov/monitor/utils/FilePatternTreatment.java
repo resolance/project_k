@@ -25,8 +25,7 @@ public class FilePatternTreatment {
 
         if (!matcher.find()) throw getException();
 
-        FileJsonName fileJsonName = new FileJsonName(date, ip);
-        return fileJsonName;
+        return new FileJsonName(date, ip);
     }
 
     private RuntimeException getException() {

@@ -1,7 +1,6 @@
 package ru.ezhov.monitor;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,7 +16,7 @@ import ru.ezhov.monitor.utils.AppUtils;
 /**
  * @author ezhov_da
  */
-public class FileJsonCreator implements Runnable {
+public class FileJsonCreator {
     private static final Logger LOG = Logger.getLogger(FileJsonCreator.class.getName());
 
     private String pathToFolderCreateJSon;
@@ -28,35 +27,9 @@ public class FileJsonCreator implements Runnable {
         this.pathToFolderCreateJSon = pathToFolderCreateJSon;
     }
 
-    public void run() {
-        int i = 0;
-
-        LOG.info("start");
-
-        for (; ; ) {
-
-            String val = "";
-
-            try {
-                create(i);
-            } catch (IOException ex) {
-                LOG.error("Не удалось создать файл " + val, ex);
-            }
-
-            i++;
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                //
-            }
-        }
-    }
-
-
-    private void create(int num) throws IOException {
+    public void create(int num) throws IOException {
 
         LOG.info("start create json file..");
-
 
         DataJsonObjectMonitor do1 =
                 new DataJsonObjectMonitor("185.159.131.132"
