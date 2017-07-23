@@ -5,12 +5,25 @@ import java.io.File;
 public class ErrorFolderCreator {
     private final String pathBasic;
 
+    private final AppConfig appConfig;
+
     public ErrorFolderCreator(String pathBasic) {
+
         this.pathBasic = pathBasic;
+
+        appConfig = AppConfigInstance.getConfig();
+    }
+
+    public void checkAndCreateFolderExceptionFiles() {
+        checkAndCreate(new PathConstructor(pathBasic).constructExceptionPathFolder());
     }
 
     public void checkAndCreateFolderErrorFiles() {
-        File fileParent = new File(AppUtils.errorFolderPath(pathBasic));
+        checkAndCreate(new PathConstructor(pathBasic).constructErrorPathFolder());
+    }
+
+    private void checkAndCreate(String checkAndCreatePathFolder) {
+        File fileParent = new File(checkAndCreatePathFolder);
         if (!fileParent.exists()) {
             fileParent.mkdirs();
         }

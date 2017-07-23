@@ -6,8 +6,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
@@ -16,7 +14,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
 import ru.ezhov.monitor.fileTreatment.interfaces.Stopper;
-import ru.ezhov.monitor.utils.AppUtils;
+import ru.ezhov.monitor.utils.AppConfig;
+import ru.ezhov.monitor.utils.AppConfigInstance;
 import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
 
 /**
@@ -29,20 +28,24 @@ import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
 public class FileMonitor implements Runnable, Stopper {
     private static final Logger LOG = Logger.getLogger(FileMonitor.class.getName());
     private String pathMonitor;
-    private Treatment<Path> treatment;
+    private Treatment<Runnable> treatment;
 
     private AtomicBoolean isStopMonitor = new AtomicBoolean(false);
 
     private WatchKey watchKey;
 
+    private AppConfig appConfig;
+
     /**
      * @param pathToFolderMonitor - папка в которой ловятся файлы
      * @param treatment           - обработчик файлов
      */
-    public FileMonitor(String pathToFolderMonitor, Treatment<Path> treatment) {
+    public FileMonitor(String pathToFolderMonitor, Treatment<Runnable> treatment) {
 
         this.pathMonitor = pathToFolderMonitor;
         this.treatment = treatment;
+
+        appConfig = AppConfigInstance.getConfig();
     }
 
     public void run() {
@@ -66,8 +69,24 @@ public class FileMonitor implements Runnable, Stopper {
 
                     Path child = dir.resolve(filename);
 
-                    if (child.toFile().getName().endsWith(AppUtils.FILE_EXTENSION)) {
-                        treatment.treatment(child);
+                    if (child
+                            .toFile()
+                            .getName()
+                            .endsWith(appConfig.fileExtension())) {
+
+
+                        Runnable runnable =
+                                new FileTreatmentRunnable(
+                                        child,
+                                        new FileMoverException());
+                        treatment.treatment(runnable);
+                    } else {
+                        LOG.info(
+                                "the file [" +
+                                        child.toFile().getAbsolutePath() +
+                                        "] has no " +
+                                        appConfig.fileExtension() +
+                                        " extension");
                     }
                 }
 

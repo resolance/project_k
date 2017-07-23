@@ -5,11 +5,11 @@ import java.util.Timer;
 
 import org.apache.log4j.Logger;
 import ru.ezhov.monitor.fileTreatment.FileTreatment;
-import ru.ezhov.monitor.fileTreatment.RepeatedFileTreatment;
+import ru.ezhov.monitor.fileTreatment.FileRepeatedTreatment;
 import ru.ezhov.monitor.fileTreatment.FileMonitor;
-import ru.ezhov.monitor.fileTreatment.OldFilesTreatment;
+import ru.ezhov.monitor.fileTreatment.FileOldTreatment;
 import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
-import ru.ezhov.monitor.utils.AppUtils;
+import ru.ezhov.monitor.utils.AppConfigInstance;
 import ru.ezhov.monitor.utils.ErrorFolderCreator;
 
 /**
@@ -28,20 +28,21 @@ public class App {
 
         //проверка существования папки с ошибками + ее создание
         ErrorFolderCreator errorFolderCreator = new ErrorFolderCreator(folder);
+        errorFolderCreator.checkAndCreateFolderExceptionFiles();
         errorFolderCreator.checkAndCreateFolderErrorFiles();
 
         //запуск проверки и обработки старых файлов
-        OldFilesTreatment oldFilesTreatment = new OldFilesTreatment(folder);
-        oldFilesTreatment.rename();
+        FileOldTreatment fileOldTreatment = new FileOldTreatment(folder);
+        fileOldTreatment.rename();
 
-        Treatment<Path> pathTreatment = new FileTreatment();
+        Treatment<Runnable> pathTreatment = new FileTreatment();
 
         //запуск таймера на обработку ошибочных файлов
         Timer timer = new Timer();
         timer.schedule(
-                new RepeatedFileTreatment(folder, pathTreatment),
+                new FileRepeatedTreatment(folder, pathTreatment),
                 0,
-                AppUtils.TIME_MILLISECONDS_CHECK_ERROR_FILES);
+                AppConfigInstance.getConfig().timeMillisecondsCheckErrorFiles());
 
         //запуск в отдельном потоке монитора файлов
         Thread thread = new Thread(new FileMonitor(folder, pathTreatment));

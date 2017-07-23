@@ -1,6 +1,7 @@
 package ru.ezhov.monitor.fileTreatment;
 
 import org.apache.log4j.Logger;
+import ru.ezhov.monitor.fileTreatment.interfaces.FileMover;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,32 +14,24 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
  * Класс, который переносит файлы из основной папки обработки в папку с ошибочными файлами
  */
 
-public class ErrorFileMover {
+public class FileMoverException implements FileMover {
 
-    private static final Logger LOG = Logger.getLogger(ErrorFileMover.class.getName());
+    private static final Logger LOG = Logger.getLogger(FileMoverException.class.getName());
 
-    private final File src;
-    private final File dist;
-    private final int countAttempt;
+    private File src;
+    private File dist;
+    private int countAttempt;
 
-    /**
-     *
-     * @param src файл для переноса
-     * @param dist итоговый файл после переноса
-     * @param countAttempt кол-во попыток при переносе файла
-     */
-    public ErrorFileMover(File src, File dist, int countAttempt) {
+    public void move(File src, File dist, int countAttempt) throws Exception {
         this.src = src;
         this.dist = dist;
         this.countAttempt = countAttempt;
-    }
 
-    public void move() {
         int attempts = 1;
-        renameWithAttempts(attempts);
+        moveWithAttempts(attempts);
     }
 
-    private void renameWithAttempts(int attemptsNow) {
+    private void moveWithAttempts(int attemptsNow) throws Exception {
         if (attemptsNow < countAttempt) {
             try {
                 LOG.info(
@@ -63,11 +56,11 @@ public class ErrorFileMover {
 
             } catch (IOException e) {
                 LOG.error("error move file: [" + src.getAbsolutePath() + "] attempt № " + attemptsNow++, e);
-                renameWithAttempts(attemptsNow);
+                moveWithAttempts(attemptsNow);
             }
         } else {
-
-            LOG.fatal("error move file: [" + src.getAbsolutePath() + "] after attempts № " + attemptsNow);
+            LOG.fatal("fatal move file: [" + src.getAbsolutePath() + "] after attempts ");
+            throw new Exception("Can't move file [" + src.getAbsolutePath() + "]");
         }
     }
 
