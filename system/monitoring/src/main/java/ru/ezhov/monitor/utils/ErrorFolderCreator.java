@@ -5,13 +5,10 @@ import java.io.File;
 public class ErrorFolderCreator {
     private final String pathBasic;
 
-    private final AppConfig appConfig;
-
     public ErrorFolderCreator(String pathBasic) {
 
         this.pathBasic = pathBasic;
 
-        appConfig = AppConfigInstance.getConfig();
     }
 
     public void checkAndCreateFolderExceptionFiles() {

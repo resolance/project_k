@@ -41,7 +41,6 @@ public class FileMoverError implements FileMover {
                             " folder.");
             move();
         }
-
     }
 
     private void move() {

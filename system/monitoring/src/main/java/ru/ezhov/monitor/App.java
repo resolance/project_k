@@ -1,6 +1,5 @@
 package ru.ezhov.monitor;
 
-import java.nio.file.Path;
 import java.util.Timer;
 
 import org.apache.log4j.Logger;
@@ -23,28 +22,28 @@ public class App {
 
 
     public static void main(String[] args) {
-        //папка для обработки файлов
+        //Папка для обработки файлов
         String folder = args[0];
 
-        //проверка существования папки с ошибками + ее создание
+        //Поверка существования папки с ошибками + ее создание
         ErrorFolderCreator errorFolderCreator = new ErrorFolderCreator(folder);
         errorFolderCreator.checkAndCreateFolderExceptionFiles();
         errorFolderCreator.checkAndCreateFolderErrorFiles();
 
-        //запуск проверки и обработки старых файлов
+        //Запуск проверки и обработки старых файлов
         FileOldTreatment fileOldTreatment = new FileOldTreatment(folder);
         fileOldTreatment.rename();
 
         Treatment<Runnable> pathTreatment = new FileTreatment();
 
-        //запуск таймера на обработку ошибочных файлов
+        //Запуск таймера на обработку ошибочных файлов
         Timer timer = new Timer();
         timer.schedule(
                 new FileRepeatedTreatment(folder, pathTreatment),
                 0,
                 AppConfigInstance.getConfig().timeMillisecondsCheckErrorFiles());
 
-        //запуск в отдельном потоке монитора файлов
+        //Запуск в отдельном потоке монитора файлов
         Thread thread = new Thread(new FileMonitor(folder, pathTreatment));
         thread.start();
     }

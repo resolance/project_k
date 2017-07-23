@@ -7,9 +7,6 @@ import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
 import ru.ezhov.monitor.utils.AppConfigInstance;
 
 import java.io.File;
-import java.nio.file.Path;
-
-import static org.junit.Assert.*;
 
 public class FileMonitorTest {
     @Rule
@@ -18,7 +15,6 @@ public class FileMonitorTest {
     @Test
     public void run() throws Exception {
 
-        //TODO: необходимо разобраться с тестирование в несколько потоков
         String nameTextFile = "test.json";
 
         File folderWait = temporaryFolder.newFolder(AppConfigInstance.getConfig().folderExceptionFile());
@@ -36,7 +32,6 @@ public class FileMonitorTest {
 
         File fileNew = temporaryFolder.newFile(folderWait.getName() + File.separator + nameTextFile);
 
-        Thread.sleep(2000);
         fileMonitor.stop();
     }
 
