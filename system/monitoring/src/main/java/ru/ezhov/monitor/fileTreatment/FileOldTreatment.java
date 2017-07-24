@@ -8,7 +8,8 @@ import ru.ezhov.monitor.utils.AppConfigInstance;
 import ru.ezhov.monitor.utils.PathConstructor;
 
 /**
- * Класс, который перемещает файлы в папку исключений, если они были до обработки, чтоб отдельный поток их обработал
+ * Класс, который перемещает файлы в папку исключений, если они были до обработки,
+ * чтоб отдельный поток их обработал
  *
  * @author ezhov_da
  */
@@ -29,7 +30,8 @@ public class FileOldTreatment {
         LOG.info("move start files in folder: " + folderCheck);
 
         File file = new File(folderCheck);
-        File[] files = file.listFiles((dir, name) -> name.endsWith(appConfig.fileExtension()));
+        File[] files = file.listFiles((dir, name)
+                -> name.endsWith(appConfig.fileExtension()));
 
         LOG.info("find " + files.length + " files");
 

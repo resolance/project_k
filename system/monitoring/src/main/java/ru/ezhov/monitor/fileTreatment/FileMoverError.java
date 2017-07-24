@@ -55,7 +55,7 @@ public class FileMoverError implements FileMover {
             fileMover.move(src, fileDist, countAttempt);
         } catch (Exception e) {
             LOG.fatal(
-                    "Can't move file to " +
+                    "Can't move file  to " +
                             appConfig.folderErrorFile() +
                             " [" + src.getAbsolutePath() +
                             "]", e);
