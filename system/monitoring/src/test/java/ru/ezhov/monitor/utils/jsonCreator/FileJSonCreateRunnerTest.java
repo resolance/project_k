@@ -22,8 +22,9 @@ public class FileJSonCreateRunnerTest {
 
         File fileFolder = new File(file.getAbsolutePath());
 
+        int howManyFilesCreate = 20;
         FileJSonCreateRunner fileJSonCreateRunner =
-                new FileJSonCreateRunner(20, fileFolder.getAbsolutePath());
+                new FileJSonCreateRunner(howManyFilesCreate, fileFolder.getAbsolutePath());
         fileJSonCreateRunner.run();
 
         assertTrue(fileFolder.listFiles().length > 0);
