@@ -16,22 +16,18 @@ public class ErrorFolderCreatorTest {
 
     @Test
     public void checkAndCreateFolderExceptionFiles() throws Exception {
-
         File file = temporaryFolder.newFolder(basicPath);
-
-        ErrorFolderCreator errorFolderCreator = new ErrorFolderCreator(file.getAbsolutePath());
+        ErrorFolderCreator errorFolderCreator =
+                new ErrorFolderCreator(file.getAbsolutePath());
         errorFolderCreator.checkAndCreateFolderExceptionFiles();
-
-
     }
 
     @Test
     public void checkAndCreateFolderErrorFiles() throws Exception {
         File file = temporaryFolder.newFolder(basicPath);
-
-        ErrorFolderCreator errorFolderCreator = new ErrorFolderCreator(file.getAbsolutePath());
+        ErrorFolderCreator errorFolderCreator = new
+                ErrorFolderCreator(file.getAbsolutePath());
         errorFolderCreator.checkAndCreateFolderExceptionFiles();
-
     }
 
 }

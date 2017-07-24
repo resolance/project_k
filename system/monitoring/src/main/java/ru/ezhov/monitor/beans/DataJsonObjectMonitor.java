@@ -75,11 +75,11 @@ public class DataJsonObjectMonitor {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("ip", ip)
-                .add("uptime", uptime)
-                .add("loadaverage", loadaverage)
-                .add("sizeHDDFree", sizeHDDFree)
-                .add("memSize", memSize).toString();
+                .add("ip", this.ip)
+                .add("uptime", this.uptime)
+                .add("loadaverage", this.loadaverage)
+                .add("sizeHDDFree", this.sizeHDDFree)
+                .add("memSize", this.memSize).toString();
     }
 
 

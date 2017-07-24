@@ -67,7 +67,7 @@ public class FileTreatmentRunnable implements Runnable {
             LOG.error("error executed file, because bad name file as : " + file.getAbsolutePath(), ex);
             moveFileOnException(file);
         } catch (Exception ex) {
-            LOG.error("error executed file and try move file: " + file.getAbsolutePath(), ex);
+            LOG.error("error executed file and try treatment file: " + file.getAbsolutePath(), ex);
             moveFileOnException(file);
         }
 
@@ -75,7 +75,7 @@ public class FileTreatmentRunnable implements Runnable {
     }
 
     private void moveFileOnException(File file) {
-        LOG.info("try move");
+        LOG.info("try treatment");
 
         File newFile =
                 new File(
@@ -87,7 +87,7 @@ public class FileTreatmentRunnable implements Runnable {
         try {
             fileMover.move(file, newFile, appConfig.attemptsCount());
         } catch (Exception e) {
-            LOG.fatal("Don't move file [" + file.getAbsolutePath() + "] to " + appConfig.folderExceptionFile() + " folder", e);
+            LOG.fatal("Don't treatment file [" + file.getAbsolutePath() + "] to " + appConfig.folderExceptionFile() + " folder", e);
         }
     }
 

@@ -8,7 +8,7 @@ import ru.ezhov.monitor.utils.AppConfigInstance;
 
 import java.io.File;
 
-public class FileMonitorTest {
+public class FileMonitorImlTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -26,13 +26,13 @@ public class FileMonitorTest {
             }
         };
 
-        FileMonitor fileMonitor = new FileMonitor(folderWait.getAbsolutePath(), treatment);
-        Thread thread = new Thread(fileMonitor);
+        FileMonitorIml fileMonitorIml = new FileMonitorIml(folderWait.getAbsolutePath(), treatment);
+        Thread thread = new Thread(fileMonitorIml);
         thread.start();
 
         File fileNew = temporaryFolder.newFile(folderWait.getName() + File.separator + nameTextFile);
 
-        fileMonitor.stop();
+        fileMonitorIml.stop();
     }
 
 }

@@ -14,7 +14,7 @@ public class FileTreatment implements Treatment<Runnable> {
 
     @Override
     public void treatment(Runnable treatmentObject) {
-        Thread thread =                 new Thread(treatmentObject);
+        Thread thread = new Thread(treatmentObject);
         thread.setDaemon(true);
         thread.start();
     }

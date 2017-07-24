@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: log4j-1.2.17.jar jackson-mapper-asl-1.9.13.jar jackson-cor
- e-2.8.9.jar jackson-core-asl-1.9.13.jar
-Main-Class: ru.ezhov.monitor.App
-

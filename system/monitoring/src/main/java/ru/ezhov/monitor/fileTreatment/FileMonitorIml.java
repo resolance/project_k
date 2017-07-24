@@ -13,6 +13,7 @@ import java.nio.file.WatchService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
+import ru.ezhov.monitor.fileTreatment.interfaces.FileMonitor;
 import ru.ezhov.monitor.fileTreatment.interfaces.Stopper;
 import ru.ezhov.monitor.utils.AppConfig;
 import ru.ezhov.monitor.utils.AppConfigInstance;
@@ -25,8 +26,8 @@ import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
  *
  * @author ezhov_da
  */
-public class FileMonitor implements Runnable, Stopper {
-    private static final Logger LOG = Logger.getLogger(FileMonitor.class.getName());
+public class FileMonitorIml implements FileMonitor {
+    private static final Logger LOG = Logger.getLogger(FileMonitorIml.class.getName());
     private String pathMonitor;
     private Treatment<Runnable> treatment;
 
@@ -40,7 +41,7 @@ public class FileMonitor implements Runnable, Stopper {
      * @param pathToFolderMonitor - папка в которой ловятся файлы
      * @param treatment           - обработчик файлов
      */
-    public FileMonitor(String pathToFolderMonitor, Treatment<Runnable> treatment) {
+    public FileMonitorIml(String pathToFolderMonitor, Treatment<Runnable> treatment) {
 
         this.pathMonitor = pathToFolderMonitor;
         this.treatment = treatment;
@@ -75,7 +76,7 @@ public class FileMonitor implements Runnable, Stopper {
                             .endsWith(appConfig.fileExtension())) {
 
 
-                        Runnable runnable =
+                        final Runnable runnable =
                                 new FileTreatmentRunnable(
                                         child,
                                         new FileMoverException());

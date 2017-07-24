@@ -1,15 +1,8 @@
 package ru.ezhov.monitor;
 
-import java.util.Timer;
-
 import org.apache.log4j.Logger;
+import ru.ezhov.monitor.fileTreatment.AppFileMonitorRunner;
 import ru.ezhov.monitor.fileTreatment.FileTreatment;
-import ru.ezhov.monitor.fileTreatment.FileRepeatedTreatment;
-import ru.ezhov.monitor.fileTreatment.FileMonitor;
-import ru.ezhov.monitor.fileTreatment.FileOldTreatment;
-import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
-import ru.ezhov.monitor.utils.AppConfigInstance;
-import ru.ezhov.monitor.utils.ErrorFolderCreator;
 
 /**
  * Запуск приложения
@@ -20,31 +13,24 @@ import ru.ezhov.monitor.utils.ErrorFolderCreator;
 public class App {
     private static final Logger LOG = Logger.getLogger(App.class.getName());
 
-
+    /**
+     * Входная точка приложения
+     * @param args - массив с аргументами
+     */
     public static void main(String[] args) {
+        LOG.info("start app...");
         //Папка для обработки файлов
-        String folder = args[0];
+        final String folder = args[0];
 
-        //Поверка существования папки с ошибками + ее создание
-        ErrorFolderCreator errorFolderCreator = new ErrorFolderCreator(folder);
-        errorFolderCreator.checkAndCreateFolderExceptionFiles();
-        errorFolderCreator.checkAndCreateFolderErrorFiles();
+        String url="";
+        String classDriver="";
+        String username="";
+        String pass="";
 
-        //Запуск проверки и обработки старых файлов
-        FileOldTreatment fileOldTreatment = new FileOldTreatment(folder);
-        fileOldTreatment.rename();
 
-        Treatment<Runnable> pathTreatment = new FileTreatment();
 
-        //Запуск таймера на обработку ошибочных файлов
-        Timer timer = new Timer();
-        timer.schedule(
-                new FileRepeatedTreatment(folder, pathTreatment),
-                0,
-                AppConfigInstance.getConfig().timeMillisecondsCheckErrorFiles());
-
-        //Запуск в отдельном потоке монитора файлов
-        Thread thread = new Thread(new FileMonitor(folder, pathTreatment));
-        thread.start();
+        final AppFileMonitorRunner appFileMonitorRunner =
+                new AppFileMonitorRunner(folder, new FileTreatment());
+        appFileMonitorRunner.runApp();
     }
 }

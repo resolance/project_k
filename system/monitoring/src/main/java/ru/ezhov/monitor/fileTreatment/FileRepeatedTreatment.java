@@ -31,8 +31,6 @@ public class FileRepeatedTreatment extends TimerTask {
         this.pathTreatment = pathTreatment;
 
         appConfig = AppConfigInstance.getConfig();
-
-
     }
 
     @Override

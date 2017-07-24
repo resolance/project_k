@@ -11,7 +11,6 @@ public class FileMoverExceptionTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-
     @Test
     public void move() throws Exception {
         String folderExceptionFile = AppConfigInstance.getConfig().folderExceptionFile();

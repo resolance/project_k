@@ -3,6 +3,8 @@ package ru.ezhov.monitor.fileTreatment;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import ru.ezhov.monitor.fileTreatment.interfaces.FileMover;
+import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
 import ru.ezhov.monitor.utils.AppConfig;
 import ru.ezhov.monitor.utils.AppConfigInstance;
 import ru.ezhov.monitor.utils.PathConstructor;
@@ -13,23 +15,20 @@ import ru.ezhov.monitor.utils.PathConstructor;
  *
  * @author ezhov_da
  */
-public class FileOldTreatment {
+public class FileOldTreatment implements Treatment<String> {
     private static final Logger LOG = Logger.getLogger(FileOldTreatment.class.getName());
-
-    private final String folderCheck;
 
     private final AppConfig appConfig;
 
-    public FileOldTreatment(String folderCheck) {
-
-        this.folderCheck = folderCheck;
+    public FileOldTreatment() {
         appConfig = AppConfigInstance.getConfig();
     }
 
-    public void rename() {
-        LOG.info("move start files in folder: " + folderCheck);
+    @Override
+    public void treatment(String folderTreatmentAbsolutePath) {
+        LOG.info("treatment start files in folder: " + folderTreatmentAbsolutePath);
 
-        File file = new File(folderCheck);
+        File file = new File(folderTreatmentAbsolutePath);
         File[] files = file.listFiles((dir, name)
                 -> name.endsWith(appConfig.fileExtension()));
 
@@ -38,7 +37,8 @@ public class FileOldTreatment {
         for (File f : files) {
             File newFile =
                     new File(
-                            new PathConstructor(folderCheck).constructExceptionPathFolder() +
+                            new PathConstructor(folderTreatmentAbsolutePath)
+                                    .constructExceptionPathFolder() +
                                     File.separator +
                                     f.getName());
 
@@ -48,10 +48,10 @@ public class FileOldTreatment {
             try {
                 fileMoverException.move(f, newFile, appConfig.attemptsCount());
             } catch (Exception e) {
-                LOG.error("File [" + f.getAbsolutePath() + "] don't move", e);
+                LOG.error("File [" + f.getAbsolutePath() + "] don't treatment", e);
             }
         }
 
-        LOG.info("move stop");
+        LOG.info("treatment stop");
     }
 }

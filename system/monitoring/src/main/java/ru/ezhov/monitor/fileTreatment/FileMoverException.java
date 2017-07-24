@@ -35,7 +35,7 @@ public class FileMoverException implements FileMover {
         if (attemptsNow < countAttempt) {
             try {
                 LOG.info(
-                        "try move file: [" +
+                        "try treatment file: [" +
                                 src.getAbsolutePath() +
                                 "] to [" +
                                 dist.getAbsolutePath() +
@@ -45,7 +45,7 @@ public class FileMoverException implements FileMover {
                 Files.move(src.toPath(), dist.toPath(), REPLACE_EXISTING);
 
                 LOG.info(
-                        "move file complete: [" +
+                        "treatment file complete: [" +
                                 src.getAbsolutePath() +
                                 "] to [" +
                                 dist.getAbsolutePath() +
@@ -55,12 +55,12 @@ public class FileMoverException implements FileMover {
                 return;
 
             } catch (IOException e) {
-                LOG.error("error move file: [" + src.getAbsolutePath() + "] attempt № " + attemptsNow++, e);
+                LOG.error("error treatment file: [" + src.getAbsolutePath() + "] attempt № " + attemptsNow++, e);
                 moveWithAttempts(attemptsNow);
             }
         } else {
-            LOG.fatal("fatal move file: [" + src.getAbsolutePath() + "] after attempts ");
-            throw new Exception("Can't move file [" + src.getAbsolutePath() + "]");
+            LOG.fatal("fatal treatment file: [" + src.getAbsolutePath() + "] after attempts ");
+            throw new Exception("Can't treatment file [" + src.getAbsolutePath() + "]");
         }
     }
 

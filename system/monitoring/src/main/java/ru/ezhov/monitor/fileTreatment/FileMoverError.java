@@ -32,11 +32,11 @@ public class FileMoverError implements FileMover {
             fileMover.move(src, dist, countAttempt);
         } catch (Exception ex) {
             LOG.error(
-                    "error move file [" +
+                    "error treatment file [" +
                             src.getAbsolutePath() +
                             "] to " +
                             appConfig.folderExceptionFile() +
-                            " folder. Try move to " +
+                            " folder. Try treatment to " +
                             appConfig.folderErrorFile() +
                             " folder.");
             move();
@@ -55,7 +55,7 @@ public class FileMoverError implements FileMover {
             fileMover.move(src, fileDist, countAttempt);
         } catch (Exception e) {
             LOG.fatal(
-                    "Can't move file  to " +
+                    "Can't treatment file  to " +
                             appConfig.folderErrorFile() +
                             " [" + src.getAbsolutePath() +
                             "]", e);
