@@ -6,21 +6,20 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class FileJsonCreatorTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
-    public void create() throws Exception {
+    public final void create() throws Exception {
 
-        File fileFolder = temporaryFolder.newFolder();
+       final File fileFolder = this.temporaryFolder.newFolder();
 
-        File file = new FileJsonCreator(fileFolder.getAbsolutePath()).create(10);
+       final File file = new FileJsonCreator(fileFolder.getAbsolutePath()).create(10);
 
         assertTrue(fileFolder.listFiles().length > 0);
-
 
     }
 

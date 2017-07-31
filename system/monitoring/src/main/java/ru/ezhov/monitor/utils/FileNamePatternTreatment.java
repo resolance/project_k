@@ -9,53 +9,54 @@ import java.util.regex.Pattern;
 public class FileNamePatternTreatment {
     private int countPartName;
     private AppConfig appConfig;
-    private String nameFile;
+    private final String nameFile;
 
     public FileNamePatternTreatment(String nameFile) {
         this.nameFile = nameFile;
-        appConfig = AppConfigInstance.getConfig();
-        countPartName = 2;
+        this.appConfig = AppConfigInstance.getConfig();
+        this.countPartName = 2;
     }
 
     public FileJsonName treatment() throws ParseException, IllegalArgumentException {
-        String[] names = nameFile.split(appConfig.delimeterPattern());
+        final String[] names = this.nameFile.split(this.appConfig.delimeterPattern());
 
-        if (names.length != countPartName) {
+        if (names.length != this.countPartName) {
             throw getException();
         }
 
-        Date date = getDate(names[0]);
-        String ip = getIp(names[1]);
+        final Date date = getDate(names[0]);
+        final String ip = getIp(names[1]);
 
         return new FileJsonName(date, ip);
     }
 
     private RuntimeException getException() {
         return new IllegalArgumentException(
-                "[" + nameFile + "] " +
-                "- Not correct name file for treatment. Use " +
-                        appConfig.patternDtFile() +
-                        appConfig.delimeterPattern() +
-                        String.format("%s.%s.%s.%s", "ip", "ip", "ip", "ip") +
-                        " template.");
+                "[" + this.nameFile
+                        + "] "
+                        + "- Not correct name file for treatment. Use "
+                        + this.appConfig.patternDtFile()
+                        + this.appConfig.delimeterPattern()
+                        + String.format("%s.%s.%s.%s", "ip", "ip", "ip", "ip")
+                        + " template.");
     }
 
     private Date getDate(String partDate) throws ParseException {
-        return new SimpleDateFormat(appConfig.patternDtFile()).parse(partDate);
+        return new SimpleDateFormat(this.appConfig.patternDtFile()).parse(partDate);
     }
 
-    private String getIp(String partIp) {
+    private String getIp(final String partIp) {
         //сначала смотрим корректность ip с точкой от расширения файла
-        Pattern pattern = Pattern.compile(appConfig.regExpCheckIp());
+        Pattern pattern = Pattern.compile(this.appConfig.regExpCheckIp());
         Matcher matcher = pattern.matcher(partIp);
 
-        if (!matcher.find()) throw getException();
+        if (!matcher.find()) throw getException(); {}
 
         //затем берем только ip
-        pattern = Pattern.compile(appConfig.regExpOutIp());
+        pattern = Pattern.compile(this.appConfig.regExpOutIp());
         matcher = pattern.matcher(partIp);
 
-        if (!matcher.find()) throw getException();
+        if (!matcher.find()) throw getException(); {}
 
         return matcher.group();
     }

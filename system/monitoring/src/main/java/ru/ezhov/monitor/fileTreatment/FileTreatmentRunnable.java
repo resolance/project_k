@@ -14,9 +14,10 @@ import java.text.ParseException;
 
 public class FileTreatmentRunnable implements Runnable {
 
-    private static final Logger LOG = Logger.getLogger(FileTreatment.class.getName());
+    private static final Logger LOG = Logger
+            .getLogger(FileTreatment.class.getName());
 
-    private Path treatmentObject;
+    private final Path treatmentObject;
 
     private AppConfig appConfig;
     private final FileMover fileMover;
@@ -28,35 +29,37 @@ public class FileTreatmentRunnable implements Runnable {
     }
 
     @Override
-    public void run() {
+    public final void run() {
 
-        LOG.info("execute path: " + treatmentObject);
+        LOG.info("execute path: " + this.treatmentObject);
 
-        File file = treatmentObject.toFile();
+        final File file = treatmentObject.toFile();
 
         try {
 
-            String dataObject = new String(Files.readAllBytes(file.toPath()));
+            final String dataObject = new String(Files.readAllBytes(file.toPath()));
 
             if ("".equals(dataObject)) {
-                LOG.error("file: " + file.getAbsolutePath() + " is empty and not be treatment");
+                LOG.error("file: "
+                        + file.getAbsolutePath()
+                        + " is empty and not be treatment");
                 return;
             }
 
             LOG.info("read textFrom file:" + dataObject);
 
-            ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
-            DataJsonObjectMonitor dataJsonObjectMonitor =
+            final DataJsonObjectMonitor dataJsonObjectMonitor =
                     mapper.readValue(dataObject, DataJsonObjectMonitor.class);
 
+            final String nameFile = file.getName();
+            final FileNamePatternTreatment fileNamePatternTreatment
+                    = new FileNamePatternTreatment(nameFile);
+            final FileJsonName fileJsonName = fileNamePatternTreatment.treatment();
 
-            String nameFile = file.getName();
-            FileNamePatternTreatment fileNamePatternTreatment = new FileNamePatternTreatment(nameFile);
-            FileJsonName fileJsonName = fileNamePatternTreatment.treatment();
-
-            LOG.info("from file: " + fileJsonName + "\n" +
-                    "\tread object: " + dataJsonObjectMonitor);
+            LOG.info("from file: " + fileJsonName + "\n"
+                    + "\tread object: " + dataJsonObjectMonitor);
 
             if (file.delete()) {
                 LOG.info("delete file: " + file);
@@ -64,31 +67,33 @@ public class FileTreatmentRunnable implements Runnable {
                 LOG.error("not delete file: " + file);
             }
         } catch (ParseException | IllegalArgumentException ex) {
-            LOG.error("error executed file, because bad name file as : " + file.getAbsolutePath(), ex);
+            LOG.error("error executed file, because bad name file as : "
+                    + file.getAbsolutePath(), ex);
             moveFileOnException(file);
         } catch (Exception ex) {
-            LOG.error("error executed file and try treatment file: " + file.getAbsolutePath(), ex);
+            LOG.error("error executed file and try treatment file: "
+                    + file.getAbsolutePath(), ex);
             moveFileOnException(file);
         }
-
-
     }
 
-    private void moveFileOnException(File file) {
+    private void moveFileOnException(final File file) {
         LOG.info("try treatment");
 
-        File newFile =
+        final File newFile =
                 new File(
                         new PathConstructor(
-                                file.getParent()).constructExceptionPathFolder() +
-                                File.separator +
-                                file.getName());
-
+                                file.getParent()).constructExceptionPathFolder()
+                                + File.separator
+                                + file.getName());
         try {
-            fileMover.move(file, newFile, appConfig.attemptsCount());
+            this.fileMover.move(file, newFile, this.appConfig.attemptsCount());
         } catch (Exception e) {
-            LOG.fatal("Don't treatment file [" + file.getAbsolutePath() + "] to " + appConfig.folderExceptionFile() + " folder", e);
+            LOG.fatal("Don't treatment file ["
+                    + file.getAbsolutePath()
+                    + "] to "
+                    + this.appConfig.folderExceptionFile()
+                    + " folder", e);
         }
     }
-
 }

@@ -7,23 +7,22 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class FileJSonCreateRunnerTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-
     @Test
-    public void run() throws IOException {
+    public final void run() throws IOException {
 
-        File file = temporaryFolder.newFolder();
+        final File file = this.temporaryFolder.newFolder();
 
-        File fileFolder = new File(file.getAbsolutePath());
+        final File fileFolder = new File(file.getAbsolutePath());
 
-        int howManyFilesCreate = 20;
-        FileJSonCreateRunner fileJSonCreateRunner =
+        final int howManyFilesCreate = 20;
+        final FileJSonCreateRunner fileJSonCreateRunner =
                 new FileJSonCreateRunner(howManyFilesCreate, fileFolder.getAbsolutePath());
         fileJSonCreateRunner.run();
 

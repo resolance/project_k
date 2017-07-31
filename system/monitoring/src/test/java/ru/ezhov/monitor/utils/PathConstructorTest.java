@@ -6,7 +6,7 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PathConstructorTest {
 
@@ -16,29 +16,30 @@ public class PathConstructorTest {
     private String basicPath = "basic";
 
     @Test
-    public void constructExceptionPathFolder() throws Exception {
-        File file = temporaryFolder.newFolder(basicPath);
+    public final void constructExceptionPathFolder() throws Exception {
+        final File file = this.temporaryFolder.newFolder(this.basicPath);
 
-        PathConstructor pathConstructor = new PathConstructor(file.getAbsolutePath());
-        String pathHolder = pathConstructor.constructExceptionPathFolder();
+        final PathConstructor pathConstructor = new PathConstructor(file.getAbsolutePath());
+        final String pathHolder = pathConstructor.constructExceptionPathFolder();
 
-        String pathToFolderException =
+        final String pathToFolderException =
                 file
                         .getAbsolutePath()
                         + File.separator
                         + AppConfigInstance.getConfig().folderExceptionFile();
 
-        assertEquals("Folders for exception", pathToFolderException, pathHolder);
+        assertEquals("Folders for exception",
+                pathToFolderException, pathHolder);
     }
 
     @Test
-    public void constructErrorPathFolder() throws Exception {
-        File file = temporaryFolder.newFolder(basicPath);
+    public final void constructErrorPathFolder() throws Exception {
+        final File file = this.temporaryFolder.newFolder(this.basicPath);
 
-        PathConstructor pathConstructor = new PathConstructor(file.getAbsolutePath());
-        String pathHolder = pathConstructor.constructErrorPathFolder();
+        final PathConstructor pathConstructor = new PathConstructor(file.getAbsolutePath());
+        final String pathHolder = pathConstructor.constructErrorPathFolder();
 
-        String pathToFolderError =
+        final String pathToFolderError =
                 file
                         .getAbsolutePath()
                         + File.separator

@@ -13,24 +13,29 @@ public class FileMonitorImlTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
-    public void run() throws Exception {
+    public final void run() throws Exception {
 
-        String nameTextFile = "test.json";
+        final String nameTextFile = "test.json";
 
-        File folderWait = temporaryFolder.newFolder(AppConfigInstance.getConfig().folderExceptionFile());
+        final File folderWait = temporaryFolder.newFolder(AppConfigInstance
+                .getConfig().folderExceptionFile());
 
-        Treatment<Runnable> treatment = new Treatment<Runnable>() {
+        final Treatment<Runnable> treatment = new Treatment<Runnable>() {
             @Override
             public void treatment(Runnable treatmentObject) {
                 System.out.println("test");
             }
         };
 
-        FileMonitorIml fileMonitorIml = new FileMonitorIml(folderWait.getAbsolutePath(), treatment);
-        Thread thread = new Thread(fileMonitorIml);
+        final FileMonitorIml fileMonitorIml = new FileMonitorIml(
+                folderWait.getAbsolutePath(), treatment);
+        final Thread thread = new Thread(fileMonitorIml);
         thread.start();
 
-        File fileNew = temporaryFolder.newFile(folderWait.getName() + File.separator + nameTextFile);
+        final File fileNew = temporaryFolder.newFile(
+                folderWait.getName()
+                        + File.separator
+                        + nameTextFile);
 
         fileMonitorIml.stop();
     }

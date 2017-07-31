@@ -12,14 +12,18 @@ public class FileMoverExceptionTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
-    public void move() throws Exception {
-        String folderExceptionFile = AppConfigInstance.getConfig().folderExceptionFile();
+    public final void move() throws Exception {
+        final String folderExceptionFile = AppConfigInstance
+                .getConfig().folderExceptionFile();
+        final int numberOfAttempt = 5;
 
-        File fileSrc = temporaryFolder.newFile("1.json");
-        File folderDist = temporaryFolder.newFolder(folderExceptionFile);
-        File fileDist = temporaryFolder.newFile(folderExceptionFile + "/1.json");
-        FileMoverException fileMoverException = new FileMoverException();
-        fileMoverException.move(fileSrc, fileDist, 5);
+        final File fileSrc = this.temporaryFolder.newFile("1.json");
+        final File folderDist = this.temporaryFolder
+                .newFolder(folderExceptionFile);
+        final File fileDist = this.temporaryFolder
+                .newFile(folderExceptionFile + "/1.json");
+        final FileMoverException fileMoverException = new FileMoverException();
+        fileMoverException.move(fileSrc, fileDist, numberOfAttempt);
     }
 
 }

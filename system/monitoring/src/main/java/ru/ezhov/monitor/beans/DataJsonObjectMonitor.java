@@ -8,7 +8,8 @@ import org.apache.log4j.Logger;
  * @author ezhov_da
  */
 public class DataJsonObjectMonitor {
-    private static final Logger LOG = Logger.getLogger(DataJsonObjectMonitor.class.getName());
+    private static final Logger LOG = Logger
+            .getLogger(DataJsonObjectMonitor.class.getName());
 
     private String ip;
     private String uptime;
@@ -20,11 +21,11 @@ public class DataJsonObjectMonitor {
     }
 
     public DataJsonObjectMonitor(
-            String ip,
-            String uptime,
-            double loadaverage,
-            String sizeHDDFree,
-            int memSize) {
+            final String ip,
+            final String uptime,
+            final double loadaverage,
+            final String sizeHDDFree,
+            final int memSize) {
         this.ip = ip;
         this.uptime = uptime;
         this.loadaverage = loadaverage;
@@ -32,40 +33,40 @@ public class DataJsonObjectMonitor {
         this.memSize = memSize;
     }
 
-    public String getIp() {
-        return ip;
+    final public String getIp() {
+        return this.ip;
     }
 
-    public void setIp(String ip) {
+    public void setIp(final String ip) {
         this.ip = ip;
     }
 
-    public String getUptime() {
-        return uptime;
+    final public String getUptime() {
+        return this.uptime;
     }
 
     public void setUptime(String uptime) {
         this.uptime = uptime;
     }
 
-    public double getLoadaverage() {
-        return loadaverage;
+    final public double getLoadaverage() {
+        return this.loadaverage;
     }
 
     public void setLoadaverage(double loadaverage) {
         this.loadaverage = loadaverage;
     }
 
-    public String getSizeHDDFree() {
-        return sizeHDDFree;
+    final public String getSizeHDDFree() {
+        return this.sizeHDDFree;
     }
 
     public void setSizeHDDFree(String sizeHDDFree) {
         this.sizeHDDFree = sizeHDDFree;
     }
 
-    public int getMemSize() {
-        return memSize;
+    final public int getMemSize() {
+        return this.memSize;
     }
 
     public void setMemSize(int memSize) {
@@ -73,7 +74,7 @@ public class DataJsonObjectMonitor {
     }
 
     @Override
-    public String toString() {
+    final public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("ip", this.ip)
                 .add("uptime", this.uptime)
@@ -81,6 +82,4 @@ public class DataJsonObjectMonitor {
                 .add("sizeHDDFree", this.sizeHDDFree)
                 .add("memSize", this.memSize).toString();
     }
-
-
 }

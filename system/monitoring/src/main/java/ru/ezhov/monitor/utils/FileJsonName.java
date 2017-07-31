@@ -15,22 +15,20 @@ public class FileJsonName {
     public FileJsonName() {
     }
 
-    public FileJsonName(Date date, String ip) {
+    public FileJsonName(final Date date, final String ip) {
         this.date = date;
         this.ip = ip;
     }
 
-    public Date getDate() {
-        return date;
+    public final Date getDate() {
+        return this.date;
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getIp() {
-        return ip;
-    }
+    public final String getIp() { return this.ip; }
 
     public void setIp(String ip) {
         this.ip = ip;
@@ -39,7 +37,7 @@ public class FileJsonName {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("date", date)
-                .add("ip", ip).toString();
+                .add("date", this.date)
+                .add("ip", this.ip).toString();
     }
 }

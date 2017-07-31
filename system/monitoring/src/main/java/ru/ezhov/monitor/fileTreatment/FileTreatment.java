@@ -10,10 +10,11 @@ import ru.ezhov.monitor.fileTreatment.interfaces.Treatment;
  * @author ezhov_da
  */
 public class FileTreatment implements Treatment<Runnable> {
-    private static final Logger LOG = Logger.getLogger(FileTreatment.class.getName());
+    private static final Logger LOG = Logger
+            .getLogger(FileTreatment.class.getName());
 
     @Override
-    public void treatment(Runnable treatmentObject) {
+    public final void treatment(Runnable treatmentObject) {
         Thread thread = new Thread(treatmentObject);
         thread.setDaemon(true);
         thread.start();

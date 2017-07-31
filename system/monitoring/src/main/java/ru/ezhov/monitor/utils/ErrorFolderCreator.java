@@ -5,21 +5,23 @@ import java.io.File;
 public class ErrorFolderCreator {
     private final String pathBasic;
 
-    public ErrorFolderCreator(String pathBasic) {
+    public ErrorFolderCreator(final String pathBasic) {
 
         this.pathBasic = pathBasic;
 
     }
 
-    public void checkAndCreateFolderExceptionFiles() {
-        checkAndCreate(new PathConstructor(pathBasic).constructExceptionPathFolder());
+    public final void checkAndCreateFolderExceptionFiles() {
+        checkAndCreate(new PathConstructor(this.pathBasic)
+                .constructExceptionPathFolder());
     }
 
-    public void checkAndCreateFolderErrorFiles() {
-        checkAndCreate(new PathConstructor(pathBasic).constructErrorPathFolder());
+    public final void checkAndCreateFolderErrorFiles() {
+        checkAndCreate(new PathConstructor(this.pathBasic)
+                .constructErrorPathFolder());
     }
 
-    private void checkAndCreate(String checkAndCreatePathFolder) {
+    private final void checkAndCreate(String checkAndCreatePathFolder) {
         File fileParent = new File(checkAndCreatePathFolder);
         if (!fileParent.exists()) {
             fileParent.mkdirs();

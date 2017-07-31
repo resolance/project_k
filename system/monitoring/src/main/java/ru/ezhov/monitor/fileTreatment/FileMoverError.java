@@ -21,44 +21,44 @@ public class FileMoverError implements FileMover {
     private FileMover fileMover;
     private AppConfig appConfig;
 
-    public FileMoverError(FileMover fileMover) {
+    public FileMoverError(final FileMover fileMover) {
         this.fileMover = fileMover;
-        appConfig = AppConfigInstance.getConfig();
+        this.appConfig = AppConfigInstance.getConfig();
     }
 
     @Override
-    public void move(File src, File dist, int countAttempt) throws Exception {
+    public final void move(final File src, final File dist, final int countAttempt) throws Exception {
         try {
-            fileMover.move(src, dist, countAttempt);
+            this.fileMover.move(src, dist, countAttempt);
         } catch (Exception ex) {
-            LOG.error(
-                    "error treatment file [" +
-                            src.getAbsolutePath() +
-                            "] to " +
-                            appConfig.folderExceptionFile() +
-                            " folder. Try treatment to " +
-                            appConfig.folderErrorFile() +
-                            " folder.");
-            move();
+            LOG.error("error treatment file ["
+                    + src.getAbsolutePath()
+                    + "] to "
+                    + this.appConfig.folderExceptionFile()
+                    + " folder. Try treatment to "
+                    + appConfig.folderErrorFile()
+                    + " folder.");
+            this.move();
         }
     }
 
     private void move() {
-        File fileDist = new File(
-                src.getParentFile().getAbsolutePath() +
-                        File.separator +
-                        appConfig.folderErrorFile() +
-                        dist.getName()
+        final File fileDist = new File(
+                this.src.getParentFile().getAbsolutePath()
+                        + File.separator
+                        + this.appConfig.folderErrorFile()
+                        + this.dist.getName()
         );
 
         try {
-            fileMover.move(src, fileDist, countAttempt);
+            fileMover.move(this.src, fileDist, this.countAttempt);
         } catch (Exception e) {
             LOG.fatal(
-                    "Can't treatment file  to " +
-                            appConfig.folderErrorFile() +
-                            " [" + src.getAbsolutePath() +
-                            "]", e);
+                    "Can't treatment file  to "
+                            + this.appConfig.folderErrorFile()
+                            + " [" + this.src.getAbsolutePath()
+                            + "]", e
+                    );
         }
     }
 }

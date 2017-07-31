@@ -6,8 +6,6 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
-
 public class ErrorFolderCreatorTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -15,17 +13,17 @@ public class ErrorFolderCreatorTest {
     private String basicPath = "test";
 
     @Test
-    public void checkAndCreateFolderExceptionFiles() throws Exception {
-        File file = temporaryFolder.newFolder(basicPath);
-        ErrorFolderCreator errorFolderCreator =
+    public final void checkAndCreateFolderExceptionFiles() throws Exception {
+        final File file = this.temporaryFolder.newFolder(this.basicPath);
+        final ErrorFolderCreator errorFolderCreator =
                 new ErrorFolderCreator(file.getAbsolutePath());
         errorFolderCreator.checkAndCreateFolderExceptionFiles();
     }
 
     @Test
-    public void checkAndCreateFolderErrorFiles() throws Exception {
-        File file = temporaryFolder.newFolder(basicPath);
-        ErrorFolderCreator errorFolderCreator = new
+    public final void checkAndCreateFolderErrorFiles() throws Exception {
+        final File file = this.temporaryFolder.newFolder(this.basicPath);
+        final ErrorFolderCreator errorFolderCreator = new
                 ErrorFolderCreator(file.getAbsolutePath());
         errorFolderCreator.checkAndCreateFolderExceptionFiles();
     }

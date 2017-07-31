@@ -8,24 +8,23 @@ import java.io.File;
 public class PathConstructor {
 
     private AppConfig appConfig;
-    private String basicPath;
+    private final String basicPath;
 
     public PathConstructor(String basicPath) {
         this.basicPath = basicPath;
-        appConfig = AppConfigInstance.getConfig();
+        this.appConfig = AppConfigInstance.getConfig();
     }
 
-    public String constructExceptionPathFolder() {
-        return construct(appConfig.folderExceptionFile());
+    public final String constructExceptionPathFolder() {
+        return construct(this.appConfig.folderExceptionFile());
 
     }
 
-    public String constructErrorPathFolder() {
-        return construct(appConfig.folderErrorFile());
+    public final String constructErrorPathFolder() {
+        return construct(this.appConfig.folderErrorFile());
     }
 
-    private String construct(String folder) {
-        return basicPath + File.separator + folder;
+    private String construct(final String folder) {
+        return this.basicPath + File.separator + folder;
     }
-
 }

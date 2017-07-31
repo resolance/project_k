@@ -22,12 +22,10 @@ public class App {
         //Папка для обработки файлов
         final String folder = args[0];
 
-        String url="";
-        String classDriver="";
-        String username="";
-        String pass="";
-
-
+        final String url = "";
+        final String classDriver = "";
+        final String username = "";
+        final String pass = "";
 
         final AppFileMonitorRunner appFileMonitorRunner =
                 new AppFileMonitorRunner(folder, new FileTreatment());
